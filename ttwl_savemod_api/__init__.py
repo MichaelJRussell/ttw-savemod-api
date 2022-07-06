@@ -25,7 +25,8 @@ def create_app(test_config=None):
         pass
 
     # Register blueprints
-    from .views import hello
+    from .views import hello, ttwl_info_bp
     app.register_blueprint(hello)
+    app.register_blueprint(ttwl_info_bp)
 
     return app
