@@ -1,9 +1,9 @@
-import imp
-import json
+import os
 from flask import Blueprint
 from flask import jsonify
 from ttwl_savemod_api import app
-from ttwlsave.ttwlsave import TTWLSave
+from ttwl_savemod_api.models.character_info import CharacterInfoSchema
+from ttwl_savemod_api.services.infoService import InfoService
 
 hello = Blueprint('hello', __name__)
 ttwl_info_bp = Blueprint('ttwl_info_bp', __name__)
@@ -14,11 +14,9 @@ def index():
 
 @app.route('/info/<filename>', methods=['GET'])
 def get_info(filename: str):
-    save = TTWLSave(filename)
-    info = {
-        'name': save.get_char_name(),
-        'saveId': save.get_savegame_id(),
-        'level': save.get_level()
-    }
+    service = InfoService(app.config['SAVE_DIR'])
+    raw_info = service.get_info(filename)
+    schema = CharacterInfoSchema()
+    info = schema.dump(raw_info)
 
     return jsonify(info)
