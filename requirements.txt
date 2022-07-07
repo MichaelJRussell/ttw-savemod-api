@@ -1,0 +1,3 @@
+Flask>=2.0.2,<3.0
+marshmallow
+git+https://github.com/abramhindle/ttwl-cli-saveedit
