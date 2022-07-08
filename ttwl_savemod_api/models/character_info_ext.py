@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields
 from ttwl_savemod_api.models.character_info import CharacterInfo, CharacterInfoSchema
+from ttwl_savemod_api.models.item import ItemSchema
 
 class CharacterInfoExt(CharacterInfo):
     def __init__(self) -> None:
@@ -13,9 +14,9 @@ class Items:
         self.equipped = []
         self.inventory = []
 
-class ItemSchema(Schema):
-    equipped = fields.List(fields.Str())
-    inventory = fields.List(fields.Str())
+class ItemSchema2(Schema):
+    equipped = fields.List(fields.Nested(ItemSchema))
+    inventory = fields.List(fields.Nested(ItemSchema))
 
 class CharacterInfoExtSchema(CharacterInfoSchema):
-    items = fields.Nested(ItemSchema)
+    items = fields.Nested(ItemSchema2)
